@@ -1,0 +1,16 @@
+#toolbox{
+    position: absolute;
+    left:0.25rem;
+    top:3.5rem;
+    opacity: 1; // Start at 0.09 on mouseover, update to 1.0
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px, rgba(0, 0, 0, 0.15) 0px 8px 16px;
+}
+
+#toolbox.open{
+    width:6rem;
+}
+
+#toolbox.closed{
+    /* need to change side icon. */
+    width:1rem;
+}
