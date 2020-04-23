@@ -5,6 +5,7 @@ import styles from './colorPicker.module.scss';
 import {
     updateColor
 } from "./colorPickerSlice";
+import CameraColor from "./cameraColor/CameraColor";
 
 // This React class component wraps the "react-color" component and connects it to the Redux store, and thus the rest of the app.
 class ConnectedColorPicker extends React.Component {
@@ -25,10 +26,13 @@ class ConnectedColorPicker extends React.Component {
   
     render() {
       return (
+        <>
         <SketchPicker
           color={ this.state.background }
           onChangeComplete={ this.handleChangeComplete }
         />
+        <CameraColor></CameraColor>
+        </>
       );
     }
   }
