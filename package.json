@@ -32,6 +32,7 @@
     "@tensorflow/tfjs": "^1.7.2",
     "@tensorflow/tfjs-converter": "^1.7.2",
     "bulma": "^0.8.1",
+    "face-api.js": "^0.22.2",
     "gl-matrix": "^3.3.0",
     "react": "^16.13.1",
     "react-color": "^2.18.0",

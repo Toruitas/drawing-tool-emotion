@@ -1,4 +1,4 @@
-# Drawing-tool-Posenet
+# Drawing Tool With Expressions
 
 UAL: Creative Computing Institute
 
@@ -9,7 +9,9 @@ By me, Stuart Leitch!
 
 Zlim Draw. Z represents a scribble, and "lim" since it's meant to be "slim" on the processor. My final project for Msc Creative Coding 2. This project uses ReactJS as an interface for a WebGL-based drawing tool, and Bulma as CSS framework. It's very impressive how fast rendering WebGL is. 
 
-The original version of this lives in my other repo [here](https://github.com/Toruitas/drawing-tool). This version is to see if I can get some ML involved using PoseNet via Tensorflow.js https://github.com/tensorflow/tfjs-models/tree/master/posenet. 
+The original version of this lives in my other repo [here](https://github.com/Toruitas/drawing-tool). This version replaces the color picker with an emotion-detector. Depending on the expression you have on your face at any given time, the color will change! 
+
+If you seek to replicate the face-api.js part, I had this error: `Error: Based on the provided shape, [1,1,32,64], the tensor should have ...` which was solved by renaming all the shards in /models to have the .bin suffix, and also update the .json weights to refer to the changed names, as suggested [here](https://github.com/justadudewhohacks/face-api.js/issues/404)
 
 This just a first step in a tool I'd like to build which can design
 1) Layout
