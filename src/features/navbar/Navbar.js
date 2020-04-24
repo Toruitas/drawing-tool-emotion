@@ -26,6 +26,10 @@ export function Navbar(){
                 <a className="navbar-item" href="https://github.com/Toruitas/drawing-tool">
                     GitHub
                 </a>
+
+            </div>
+            <div className="navbar-end">
+                <span className="navbar-item">Please be patient, the ML model may take a moment to load.</span>
             </div>
         </div>
     </nav>

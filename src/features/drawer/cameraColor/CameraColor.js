@@ -1,7 +1,11 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import * as tf from '@tensorflow/tfjs';
 import * as faceapi from 'face-api.js';
-
+import styles from './cameraColor.module.scss';
+import {
+    updateColor
+} from "./cameraColorSlice";
 
 const loadModels = async ()=>{
     // https://github.com/tensorflow/tfjs-models/tree/master/posenet
@@ -52,7 +56,18 @@ const loadModels = async ()=>{
 //     return video;
 //   }
 
-export default class Camera extends Component{
+const emotionalColors ={
+    "angry":[255,0,0],
+    "disgust":[0,168,0],
+    "fear":[255,79,193],
+    "happy":[255,225,0],
+    "sad":[48,110,255],
+    "surprise":[255,157,0],
+    "neutral":[124,124,124]
+}
+
+
+class ConnectedCamera extends Component{
     // This component uses face-api.js to detect expressions, and match it to a color + emoji for drawing.
     // https://levelup.gitconnected.com/build-ad-dog-classifier-with-react-and-tensorflow-js-in-minutes-f08e98608a65
     constructor(props){
@@ -82,28 +97,18 @@ export default class Camera extends Component{
     componentDidUpdate(){}
 
     async initDetectors(){
+        // https://github.com/WebDevSimplified/Face-Detection-JavaScript/blob/master/script.js
         Promise.all([
             faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
             // faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
             // faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
             faceapi.nets.faceExpressionNet.loadFromUri('/models')
           ]).then(async ()=>{
-              let video = await this.loadVideo();
+                let video = await this.loadVideo();
                 setInterval( async () => {
                     await this.detectExpressionInRealTime(video);
                 }, 100)
-          }
-              
-            
-            //   async () => {
-            //       this.video = await this.initCamera().then( 
-            //         () =>{
-            //             setInterval( () => {
-            //                 detectExpressionInRealTime();
-            //             }, 100);
-            //         })
-            //     }
-            )
+          })
     }
 
 
@@ -117,7 +122,7 @@ export default class Camera extends Component{
         //   });
         // https://www.tensorflow.org/js/tutorials/conversion/import_keras
 
-        // const emotionsModel = await tf.loadModel('tiny_face_detector_model-weights_manifest.json');
+        // const emotionsModel = await tf.loadModel("path.json");
         // const emotionsModel = await faceapi.nets.ssdMobilenetv1.loadFromUri('./models/tiny_face_detector_model-weights_manifest.json');
         // const emotionsModel = await faceapi.loadFaceExpressionModel('./models/');
         const emotionsModel = await faceapi.nets.faceExpressionNet.loadFromUri('/models');
@@ -169,6 +174,38 @@ export default class Camera extends Component{
         // let label = emotion_labels[index];
         // ctx.strokeStyle = emotion_colors[index];
         console.log(detection);
+        // {
+        //     "detection": {
+        //       "_imageDims": {
+        //         "_width": 1280,
+        //         "_height": 720
+        //       },
+        //       "_score": 0.8905331261915336,
+        //       "_classScore": 0.8905331261915336,
+        //       "_className": "",
+        //       "_box": {
+        //         "_x": 615.9090378566087,
+        //         "_y": 394.3206899741401,
+        //         "_width": 209.20186807514312,
+        //         "_height": 215.32221972863894
+        //       }
+        //     },
+        //     "expressions": {
+        //       "neutral": 0.9999953508377075,
+        //       "happy": 0.000004016027560282964,
+        //       "sad": 2.7672335534134618e-8,
+        //       "angry": 3.299382740351575e-7,
+        //       "fearful": 6.909939981314395e-11,
+        //       "disgusted": 5.637583733175688e-10,
+        //       "surprised": 2.0137163403433078e-7
+        //     }
+        //   }
+
+        // get the key with the highest confidence: https://stackoverflow.com/questions/27376295/getting-key-with-the-highest-value-from-object
+        let expressions = detection.expressions;
+        let expression_prediction = Object.keys(expressions).reduce((a,b) => expressions[a] > expressions[b] ? a: b);
+        let color = emotionalColors[expression_prediction];
+        this.props.updateColor([color[0], color[1], color[2], 1]);
     }
 
     getFaceDetectorOptions() {
@@ -194,3 +231,16 @@ export default class Camera extends Component{
         </video>
     )}
 }
+
+function mapDispatchToProps(dispatch) {
+    return {
+        updateColor: color => dispatch(updateColor(color))
+    };
+  }
+
+  const Camera = connect(
+    null,
+    mapDispatchToProps
+  )(ConnectedCamera);
+  
+  export default Camera;
