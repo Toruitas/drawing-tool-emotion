@@ -24,6 +24,7 @@
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-react": "^7.9.4",
     "parcel-bundler": "^1.12.4",
+    "parcel-plugin-asset-copier": "^1.0.0",
     "sass": "^1.26.3"
   },
   "dependencies": {
@@ -40,5 +41,6 @@
     "react-redux": "^7.2.0",
     "redux-logger": "^3.0.6",
     "twgl.js": "^4.14.2"
-  }
+  },
+  "assetsPath": "public/models"
 }

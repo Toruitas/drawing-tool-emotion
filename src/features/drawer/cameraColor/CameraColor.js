@@ -64,10 +64,10 @@ class ConnectedCamera extends Component{
     async initDetectors(){
         // https://github.com/WebDevSimplified/Face-Detection-JavaScript/blob/master/script.js
         Promise.all([
-            faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
+            faceapi.nets.tinyFaceDetector.loadFromUri('/'),
             // faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
             // faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
-            faceapi.nets.faceExpressionNet.loadFromUri('/models')
+            faceapi.nets.faceExpressionNet.loadFromUri('/')
           ]).then(async ()=>{
                 let video = await this.loadVideo();
                 setInterval( async () => {
