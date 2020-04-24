@@ -1,0 +1,10 @@
+.panel-block{
+    background-color: #e8e8e8;
+    text-transform:capitalize;
+    cursor:pointer;
+}
+
+.panel-block.is-active{
+    border: 1px solid #fa7c91;
+    background-color: #fa7c91;
+}

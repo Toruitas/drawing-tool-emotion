@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import * as tf from '@tensorflow/tfjs';
 import * as faceapi from 'face-api.js';
 import styles from './cameraColor.module.scss';
+import {EmojiColorSelection} from "./emojiColorSelection/emojiColorSelection";
 import {
     updateColor
 } from "./cameraColorSlice";
@@ -19,42 +20,6 @@ const loadModels = async ()=>{
     const emotionsModel = await tf.loadLayersModel('tiny_face_detector_model-weights_manifest.json');
 
 }
-
-// const setupCamera = async () =>{
-//     if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-//         throw new Error(
-//             "Browser API navigator.mediaDevices.getUserMedia not available"
-//         )
-//     }
-
-//     const video = document.getElementById('video');
-//     video.width = videoWidth;
-//     video.height = videoHeight;
-
-//     const mobile = isMobile();
-//     const stream = await navigator.mediaDevices.getUserMedia({
-//         'audio': false,
-//         'video': {
-//             facingMode: 'user',
-//             width: mobile ? undefined : videoWidth,
-//             height: mobile ? undefined : videoHeight,
-//         },
-//     });
-//     video.srcObject = stream;
-
-//     return new Promise((resolve) => {
-//         video.onloadedmetadata = () => {
-//             resolve(video);
-//         };
-//     });
-// }
-
-// async function loadVideo() {
-//     const video = await setupCamera();
-//     video.play();
-  
-//     return video;
-//   }
 
 const emotionalColors ={
     "angry":[255,0,0],
@@ -74,7 +39,7 @@ class ConnectedCamera extends Component{
         super(props);
         this.state = {
             videoWidth:1280,
-            videoheight:720
+            videoheight:720,
         }
 
         this.initCamera = this.initCamera.bind(this);
@@ -107,7 +72,8 @@ class ConnectedCamera extends Component{
                 let video = await this.loadVideo();
                 setInterval( async () => {
                     await this.detectExpressionInRealTime(video);
-                }, 100)
+                }, 200)
+                // to-do add some way to break this when the camera turns off
           })
     }
 
@@ -169,11 +135,7 @@ class ConnectedCamera extends Component{
         const detection = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceExpressions();
         // faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
 
-        // z = this.emotionsModel.predict(cT)
-        // let index = z.argMax(1).dataSync()[0]
-        // let label = emotion_labels[index];
-        // ctx.strokeStyle = emotion_colors[index];
-        console.log(detection);
+        // console.log(detection);
         // {
         //     "detection": {
         //       "_imageDims": {
@@ -205,7 +167,10 @@ class ConnectedCamera extends Component{
         let expressions = detection.expressions;
         let expression_prediction = Object.keys(expressions).reduce((a,b) => expressions[a] > expressions[b] ? a: b);
         let color = emotionalColors[expression_prediction];
-        this.props.updateColor([color[0], color[1], color[2], 1]);
+        this.props.updateColor({
+             color:[color[0], color[1], color[2], 1],
+             expression:expression_prediction
+            });
     }
 
     getFaceDetectorOptions() {
@@ -227,8 +192,17 @@ class ConnectedCamera extends Component{
 
     render(){
         return(
-        <video id="video" playsInline style={{display: "none"}}>
-        </video>
+            <div>
+                <EmojiColorSelection expressionName="neutral"></EmojiColorSelection>
+                <EmojiColorSelection expressionName="happy"></EmojiColorSelection>
+                <EmojiColorSelection expressionName="sad"></EmojiColorSelection>
+                <EmojiColorSelection expressionName="angry"></EmojiColorSelection>
+                <EmojiColorSelection expressionName="fearful"></EmojiColorSelection>
+                <EmojiColorSelection expressionName="disgusted"></EmojiColorSelection>
+                <EmojiColorSelection expressionName="surprised"></EmojiColorSelection>
+                <video id="video" playsInline style={{display: "none"}}>
+                </video>
+            </div>
     )}
 }
 

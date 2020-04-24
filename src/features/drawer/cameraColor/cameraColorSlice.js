@@ -4,11 +4,14 @@ export const slice = createSlice({
   name: 'color',
   initialState: {
     color1: [124,124,124,1],
+    expression:"neutral",
   },
   reducers: {
     updateColor: (state, action) => {
-        let colorForUpdate = action.payload;
-        state.color1 = colorForUpdate;
+        let payload = action.payload;
+
+        state.color1 = payload.color;
+        state.expression = payload.expression;
     }
   },
 });
@@ -29,5 +32,6 @@ export const { updateColor } = slice.actions;
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
 export const selectColor1 = state => state.color.color1;
+export const selectSelectedExpression = state => state.color.expression;
 
 export default slice.reducer;
