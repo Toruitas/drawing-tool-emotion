@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import styles from './emojiColorSelection.module.scss';
+import styles from './EmojiColorSelection.module.scss';
 import EmojiIcon from "./emojiColorIcon/emojiColorIcon";
 import {
     selectSelectedExpression
