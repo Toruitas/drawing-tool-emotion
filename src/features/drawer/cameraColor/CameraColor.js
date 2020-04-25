@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as tf from '@tensorflow/tfjs';
+// import * as tf from '@tensorflow/tfjs';
 import * as faceapi from 'face-api.js';
 import styles from './cameraColor.module.scss';
 import {EmojiColorSelection} from "./emojiColorSelection/emojiColorSelection";

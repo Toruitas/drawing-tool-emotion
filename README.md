@@ -13,6 +13,8 @@ The original version of this lives in my other repo [here](https://github.com/To
 
 If you seek to replicate the face-api.js part, I had this error: `Error: Based on the provided shape, [1,1,32,64], the tensor should have ...` which was solved by renaming all the shards in /models to have the .bin suffix, and also update the .json weights to refer to the changed names, as suggested [here](https://github.com/justadudewhohacks/face-api.js/issues/404)
 
+And I've taken a lot of learning away from Kevin Hsiao's project [here](https://github.com/kevinisbest/FrontEnd-EmotionDetection), and some from Google's TensorflowJS Models examples [here](https://github.com/tensorflow/tfjs-models).
+
 This just a first step in a tool I'd like to build which can design
 1) Layout
 2) Components (probably low-code not no-code)
@@ -26,4 +28,4 @@ This project deals with the Free Draw stage, as it seems like as the more diffic
 
 I've certainly grown a deeper appreciation for the complexity of drawing tools like Figma and Photoshop. No wonder the web versions of Photoshop and Illustrator are taking so long to come out. This stuff is tough. 
 
-Project URL: 
+Project URL: https://drawing-tool-emotion.now.sh
